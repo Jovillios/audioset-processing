@@ -36,6 +36,7 @@ def download(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('mode', type=str, choices=['find', 'download'])
+    parser.add_argument('-n', '--num_examples', type=int, help='number of examples to find/download')
     parser.add_argument('-c', '--classes', nargs='+', type=str,
                         help='list of classes to find in a given directory of audioset files')
     parser.add_argument('-b', '--blacklist', nargs='+', type=str,

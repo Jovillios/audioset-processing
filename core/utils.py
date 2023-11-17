@@ -48,9 +48,9 @@ def download(class_name, args):
 
         for row in reader:
             # print command for debugging
-            print("ffmpeg -ss " + str(row[1]) + " -t 10 -i $(youtube-dl -f 'bestaudio' -g https://www.youtube.com/watch?v=" +
+            print("ffmpeg -y -ss " + str(row[1]) + " -t 10 -i $(yt-dlp -f 'bestaudio' -g https://www.youtube.com/watch?v=" +
                        str(row[0]) + ") -ar " + str(DEFAULT_FS) + " -- \"" + dst_dir + "/" + str(row[0]) + "_" + row[1] + ".wav\"")
-            os.system(("ffmpeg -ss " + str(row[1]) + " -t 10 -i $(youtube-dl -f 'bestaudio' -g https://www.youtube.com/watch?v=" +
+            os.system(("ffmpeg -y -ss " + str(row[1]) + " -t 10 -i $(yt-dlp -f 'bestaudio' -g https://www.youtube.com/watch?v=" +
                        str(row[0]) + ") -ar " + str(DEFAULT_FS) + " -- \"" + dst_dir + "/" + str(row[0]) + "_" + row[1] + ".wav\""))
 
 
@@ -89,7 +89,7 @@ def create_csv(class_name, args):
         #  Include the row if it contains label for desired class and no labels of blacklisted classes
         to_write = [row for row in reader for label in label_id if label in row[3]
                     and bool(set(row[3].split(",")).intersection(blacklisted_ids)) is False]  # added check for blacklisted classes
-        writer.writerows(to_write)
+        writer.writerows(to_write[:args.num_examples])  # Write to new CSV file
 
     print("Finished writing CSV file for " + class_name)
 
